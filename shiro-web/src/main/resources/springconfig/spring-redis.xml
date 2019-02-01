@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg ref="jedisPoolConfig"/>
+        <constructor-arg value="139.196.140.168"/>
+        <constructor-arg value="6379"/>
+        <constructor-arg value="2000"/>
+        <constructor-arg value="hxl2580"/>
+    </bean>
+
+    <!-- redis pool 单机方案 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <!--最大连接数 -->
+        <property name="maxTotal" value="30"/>
+        <!--最大空闲连接数 -->
+        <property name="maxIdle" value="10"/>
+        <!--每次释放连接的最大数目 -->
+        <property name="numTestsPerEvictionRun" value="1024"/>
+        <!--释放连接的扫描间隔(单位:毫秒) -->
+        <property name="timeBetweenEvictionRunsMillis" value="30000"/>
+        <!--连接最小空闲时间(单位:毫秒) -->
+        <property name="minEvictableIdleTimeMillis" value="100000"/>
+        <!--连接空闲多久后释放,当空闲时间大于该值并且空闲连接大于最大空闲连接时直接释放连接 -->
+        <property name="softMinEvictableIdleTimeMillis" value="10000"/>
+        <!--获取连接时最大等待毫秒数,如果该值小于0,则阻塞不确定的时长,默认值-1 -->
+        <property name="maxWaitMillis" value="1500"/>
+        <!--在获取连接时检查连接有效性,默认为false -->
+        <property name="testOnBorrow" value="false"/>
+        <!--在连接空闲时检查连接有效性,默认为false -->
+        <property name="testWhileIdle" value="true"/>
+        <!--连接耗尽是否阻塞,false代表抛异常,true代表阻塞直到超时,默认为true -->
+        <property name="blockWhenExhausted" value="false"/>
+    </bean>
+
+    <bean id="jedisUtil" class="com.xlh.shiro.util.JedisUtil" />
+
+</beans>
