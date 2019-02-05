@@ -27,7 +27,10 @@ public class CustomSessionManager extends DefaultWebSessionManager {
         }
 
         if (null != request && null != sessionId) {
-            return (Session) request.getAttribute(sessionId.toString());
+            Session session = (Session) request.getAttribute(sessionId.toString());
+            if (null != session) {
+                return session;
+            }
         }
 
         // 如果从 request 对象中获取不到session，那么从redis中去读取session

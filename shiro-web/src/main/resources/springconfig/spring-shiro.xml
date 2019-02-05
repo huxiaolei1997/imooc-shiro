@@ -49,13 +49,13 @@
         <property name="hashIterations" value="1"/>
     </bean>
 
-    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="sessionDAO" ref="redisSessionDao"/>
-    </bean>
-
-    <!--<bean id="sessionManager" class="com.xlh.shiro.session.CustomSessionManager">-->
+    <!--<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">-->
         <!--<property name="sessionDAO" ref="redisSessionDao"/>-->
     <!--</bean>-->
+
+    <bean id="sessionManager" class="com.xlh.shiro.session.CustomSessionManager">
+        <property name="sessionDAO" ref="redisSessionDao"/>
+    </bean>
     <bean class="com.xlh.shiro.session.RedisSessionDao" id="redisSessionDao"/>
 
 </beans>

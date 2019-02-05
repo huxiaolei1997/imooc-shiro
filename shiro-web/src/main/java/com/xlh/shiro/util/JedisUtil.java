@@ -17,53 +17,40 @@ public class JedisUtil {
     @Autowired
     private JedisPool jedisPool;
 
+    private JedisUtil() {
+    }
+
+    public void set(byte[] key, byte[] value) {
+        try (Jedis jedis = getResource()) {
+            jedis.set(key, value);
+        }
+    }
+
+    public void expire(byte[] key, int expireTime) {
+        try (Jedis jedis = getResource()) {
+            jedis.expire(key, expireTime);
+        }
+    }
+
     private Jedis getResource() {
         return jedisPool.getResource();
     }
 
-    public byte[] set(byte[] key, byte[] value) {
-        Jedis jedis = getResource();
-        try {
-            jedis.set(key, value);
-            return value;
-        } finally {
-            jedis.close();
-        }
-    }
-
-    public void expire(byte[] key, int timeout) {
-        Jedis jedis = getResource();
-        try {
-            jedis.expire(key, timeout);
-        } finally {
-            jedis.close();
-        }
-    }
-
     public byte[] get(byte[] key) {
-        Jedis jedis = getResource();
-        try {
+        try (Jedis jedis = getResource()) {
             return jedis.get(key);
-        } finally {
-            jedis.close();
         }
     }
 
     public void del(byte[] key) {
-        Jedis jedis = getResource();
-        try {
+        try (Jedis jedis = getResource()) {
             jedis.del(key);
-        } finally {
-            jedis.close();
         }
     }
 
-    public Set<byte[]> keys(String shiroSessionPreifix) {
-         Jedis jedis = getResource();
-        try {
-            return jedis.keys((shiroSessionPreifix + "*").getBytes());
-        } finally {
-            jedis.close();
+    public Set<byte[]> keys(String prefix) {
+        try (Jedis jedis = getResource()) {
+            return jedis.keys((prefix + "*").getBytes());
         }
     }
 }
