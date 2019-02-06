@@ -9,6 +9,16 @@ public class User {
 
     private String password;
 
+    private Boolean rememberMe;
+
+    public Boolean isRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(Boolean rememberMe) {
+        this.rememberMe = rememberMe;
+    }
+
     public String getUsername() {
         return username;
     }
